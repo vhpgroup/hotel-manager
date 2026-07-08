@@ -4,7 +4,9 @@ const fs = require('node:fs');
 const { DatabaseSync } = require('node:sqlite');
 const { hashPassword } = require('./lib/util');
 
-const DATA_DIR = path.join(__dirname, 'data');
+// Thư mục lưu dữ liệu: mặc định ./data, nhưng Electron sẽ trỏ HOTEL_DATA_DIR
+// vào thư mục ghi được của người dùng (vd AppData) khi đóng gói desktop.
+const DATA_DIR = process.env.HOTEL_DATA_DIR || path.join(__dirname, 'data');
 if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
 const DB_PATH = path.join(DATA_DIR, 'hotel.db');
 

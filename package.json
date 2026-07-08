@@ -1,19 +1,70 @@
 {
-  "name": "hotel-management",
+  "name": "hotel-manager",
+  "productName": "StayPro",
   "version": "1.0.0",
-  "description": "Phần mềm quản lý khách sạn 8 phòng (mô phỏng KiotViet) - Node.js thuần, không phụ thuộc gói ngoài",
-  "main": "server.js",
-  "type": "commonjs",
+  "description": "StayPro - Phần mềm quản lý khách sạn (desktop app, Electron + SQLite). Chạy được cả dạng web.",
+  "main": "electron/main.js",
+  "author": "vhpgroup",
+  "license": "MIT",
   "engines": {
-    "node": ">=22.5.0"
+    "node": ">=22.13.0"
   },
   "scripts": {
-    "start": "node --disable-warning=ExperimentalWarning server.js",
+    "start": "electron .",
+    "web": "node --disable-warning=ExperimentalWarning server.js",
     "dev": "node --disable-warning=ExperimentalWarning --watch server.js",
-    "seed": "node --disable-warning=ExperimentalWarning db.js --reseed"
+    "seed": "node --disable-warning=ExperimentalWarning db.js --reseed",
+    "test": "node test.js",
+    "dist": "electron-builder --publish never",
+    "dist:win": "electron-builder --win --publish never",
+    "icon": "node build/gen-icon.js",
+    "postinstall": "node build/gen-icon.js"
   },
-  "keywords": ["hotel", "management", "kiotviet", "khach-san", "pms", "sqlite"],
-  "author": "",
-  "license": "MIT",
-  "dependencies": {}
+  "keywords": ["hotel", "khach-san", "kiotviet", "pms", "electron", "desktop", "sqlite"],
+  "dependencies": {},
+  "devDependencies": {
+    "electron": "^35.0.0",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.vhpgroup.staypro",
+    "productName": "StayPro",
+    "directories": {
+      "output": "release",
+      "buildResources": "build"
+    },
+    "files": [
+      "electron/**",
+      "lib/**",
+      "routes/**",
+      "public/**",
+      "build/icon.png",
+      "server.js",
+      "db.js",
+      "package.json"
+    ],
+    "win": {
+      "target": ["nsis"],
+      "icon": "build/icon.png",
+      "artifactName": "StayPro-Setup-${version}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "StayPro"
+    },
+    "mac": {
+      "target": ["dmg"],
+      "icon": "build/icon.png",
+      "category": "public.app-category.business"
+    },
+    "linux": {
+      "target": ["AppImage"],
+      "icon": "build/icon.png",
+      "category": "Office"
+    }
+  }
 }
