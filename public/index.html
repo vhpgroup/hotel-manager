@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StayPro — Quản lý khách sạn</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏨</text></svg>">
+</head>
+<body>
+  <!-- ============ ĐĂNG NHẬP ============ -->
+  <div id="login">
+    <div class="login-hero">
+      <div class="lg">
+        <span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/><path d="M9 9v.01"/><path d="M9 12v.01"/><path d="M9 15v.01"/><path d="M9 18v.01"/></svg></span>
+        StayPro
+      </div>
+      <div>
+        <h1>Quản lý khách sạn thông minh, gọn trong một màn hình.</h1>
+        <p class="tag">Sơ đồ phòng trực quan, nhận/trả phòng nhanh, tính tiền theo giờ · đêm · ngày, hóa đơn in K58/K80 và báo cáo doanh thu theo thời gian thực.</p>
+        <div class="login-feats">
+          <div class="f"><span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4v16"/><path d="M2 8h18a2 2 0 0 1 2 2v10"/><path d="M2 17h20"/><path d="M6 8v9"/></svg></span> Sơ đồ phòng theo thời gian thực</div>
+          <div class="f"><span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span> Tính tiền linh hoạt & tiền cọc</div>
+          <div class="f"><span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg></span> Báo cáo doanh thu & công suất</div>
+        </div>
+      </div>
+      <div class="foot">© 2026 StayPro · Phần mềm quản lý khách sạn</div>
+    </div>
+    <div class="login-form-wrap">
+      <form class="login-card" id="loginForm">
+        <h2>Đăng nhập</h2>
+        <div class="sub">Chào mừng trở lại 👋 Vui lòng đăng nhập để tiếp tục.</div>
+        <div class="field">
+          <label>Tài khoản</label>
+          <input name="username" id="lg-user" autocomplete="username" placeholder="admin" required>
+        </div>
+        <div class="field">
+          <label>Mật khẩu</label>
+          <input name="password" id="lg-pass" type="password" autocomplete="current-password" placeholder="••••••" required>
+        </div>
+        <button class="btn primary block" type="submit" id="lg-btn" style="padding:12px;font-size:14px">Đăng nhập</button>
+        <div class="demo">
+          <b>Tài khoản demo</b>
+          <div class="row"><span>Chủ khách sạn</span> <code>admin / 123456</code></div>
+          <div class="row"><span>Lễ tân</span> <code>letan / 123456</code></div>
+          <div class="row"><span>Nhân viên</span> <code>nhanvien / 123456</code></div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============ ỨNG DỤNG ============ -->
+  <div id="app" class="hidden">
+    <aside class="sidebar">
+      <div class="brand">
+        <span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/><path d="M9 9v.01"/><path d="M9 12v.01"/><path d="M9 15v.01"/><path d="M9 18v.01"/></svg></span>
+        <div class="txt">
+          <div class="brand-name">StayPro</div>
+          <div class="hotel" id="brand-hotel">Khách sạn</div>
+        </div>
+      </div>
+      <nav class="nav" id="nav"></nav>
+    </aside>
+    <header class="topbar">
+      <div class="pt">
+        <h2 id="page-title">Tổng quan</h2>
+        <div class="crumb" id="page-crumb">Bảng điều khiển</div>
+      </div>
+      <div class="right">
+        <button class="icon-btn" id="btn-refresh" title="Làm mới"><svg class="ic-svg" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg></button>
+        <div class="user-chip">
+          <div class="meta"><div class="nm" id="u-name"></div><div class="role" id="u-role"></div></div>
+          <div class="av" id="u-av">A</div>
+        </div>
+        <button class="icon-btn" id="btn-logout" title="Đăng xuất"><svg class="ic-svg" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg></button>
+      </div>
+    </header>
+    <main class="main" id="view"></main>
+  </div>
+
+  <div id="modal-root"></div>
+  <div id="toasts"></div>
+
+  <script src="/js/core.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>

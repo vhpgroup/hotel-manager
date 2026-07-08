@@ -1,0 +1,19 @@
+{
+  "name": "hotel-management",
+  "version": "1.0.0",
+  "description": "Phần mềm quản lý khách sạn 8 phòng (mô phỏng KiotViet) - Node.js thuần, không phụ thuộc gói ngoài",
+  "main": "server.js",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning server.js",
+    "dev": "node --disable-warning=ExperimentalWarning --watch server.js",
+    "seed": "node --disable-warning=ExperimentalWarning db.js --reseed"
+  },
+  "keywords": ["hotel", "management", "kiotviet", "khach-san", "pms", "sqlite"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {}
+}
