@@ -569,15 +569,25 @@ function prodForm(p) {
       <option value="service" ${p?.category === 'service' ? 'selected' : ''}>Dịch vụ (không tồn kho)</option></select></div>
     <div class="row3"><div class="field"><label>Giá bán</label><input type="number" id="p-price" value="${p?.price || 0}" step="1000"></div>
       <div class="field"><label>Giá vốn</label><input type="number" id="p-cost" value="${p?.cost || 0}" step="1000"></div>
-      <div class="field"><label>Tồn kho ${p ? '(hiện tại)' : 'ban đầu'}</label><input type="number" id="p-stock" value="${p?.stock || 0}" ${p ? 'disabled' : ''}></div></div>
-    ${p ? '<div class="hint">Dùng nút “+ Nhập” để thay đổi tồn kho.</div>' : ''}</div>`);
+      <div class="field"><label>Tồn kho ${p ? '(hiện tại)' : 'ban đầu'}</label><input type="number" id="p-stock" value="${p?.stock || 0}" ${p && !p.track_stock ? 'disabled' : ''}></div></div>
+    ${p ? (p.track_stock
+      ? '<div class="hint">Sửa trực tiếp số tồn để điều chỉnh — phần chênh lệch sẽ được ghi vào lịch sử kho. Hoặc dùng nút “+ Nhập” để nhập theo lô.</div>'
+      : '<div class="hint">Dịch vụ không quản lý tồn kho.</div>') : ''}</div>`);
   modal({ title: p ? 'Sửa sản phẩm' : 'Thêm sản phẩm', body, onOk: async () => {
     const payload = { name: body.querySelector('#p-name').value.trim(), sku: body.querySelector('#p-sku').value.trim(),
       category: body.querySelector('#p-cat').value, price: Number(body.querySelector('#p-price').value) || 0,
       cost: Number(body.querySelector('#p-cost').value) || 0 };
     if (!payload.name) throw new Error('Nhập tên sản phẩm');
-    if (p) await apiPut(`/api/products/${p.id}`, payload);
-    else { payload.stock = Number(body.querySelector('#p-stock').value) || 0; await apiPost('/api/products', payload); }
+    if (p) {
+      await apiPut(`/api/products/${p.id}`, payload);
+      // Điều chỉnh tồn kho trực tiếp nếu thay đổi (ghi vào lịch sử kho)
+      if (p.track_stock) {
+        const newStock = Number(body.querySelector('#p-stock').value);
+        if (Number.isFinite(newStock) && newStock !== p.stock) {
+          await apiPost(`/api/products/${p.id}/stock`, { change: newStock - p.stock, reason: 'adjust', note: 'Điều chỉnh khi sửa sản phẩm' });
+        }
+      }
+    } else { payload.stock = Number(body.querySelector('#p-stock').value) || 0; await apiPost('/api/products', payload); }
     closeModal(); toast('Đã lưu'); route();
   } });
 }
